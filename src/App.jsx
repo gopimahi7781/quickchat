@@ -116,22 +116,21 @@ useEffect(() => {
   const imageUrl = URL.createObjectURL(file)
 
   setAllChats((prev) => ({
-  ...prev,
-  [selectedUser]: [
-    ...prev[selectedUser],
-    {
-      image: imageUrl,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      sender: "me",
-    },
-  ],
-}))
-  
-  
+    ...prev,
+    [selectedUser]: [
+      ...prev[selectedUser],
+      {
+        image: imageUrl,
+        time: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        sender: "me",
+      },
+    ],
+  }))
 }
+
   const sendMessage = async () => {
 
     if (message.trim() === "") return
