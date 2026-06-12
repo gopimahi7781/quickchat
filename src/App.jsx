@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai"
 import gopiImg from "./assets/gopi.jpg"
 import priyaImg from "./assets/priya.jpg"
 import arjunImg from "./assets/arjun.jpg"
+import EmojiPicker from "emoji-picker-react"
 
 function App() {
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY)
@@ -86,6 +87,8 @@ useEffect(() => {
  const [pendingArjunReplies, setPendingArjunReplies] = useState([])
  const [replyTo, setReplyTo] = useState(null)
  const [showProfile, setShowProfile] = useState(false)
+ const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+ const [selectedImage, setSelectedImage] = useState(null)
 
   const chatEndRef = useRef(null)
 
@@ -102,7 +105,33 @@ useEffect(() => {
   )
 
 }, [allChats])
+  const onEmojiClick = (emojiData) => {
+    setMessage((prev) => prev + emojiData.emoji)
+  }
+  const handleImageUpload = (e) => {
+  const file = e.target.files[0]
 
+  if (!file) return
+
+  const imageUrl = URL.createObjectURL(file)
+
+  setAllChats((prev) => ({
+  ...prev,
+  [selectedUser]: [
+    ...prev[selectedUser],
+    {
+      image: imageUrl,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      sender: "me",
+    },
+  ],
+}))
+  
+  
+}
   const sendMessage = async () => {
 
     if (message.trim() === "") return
@@ -460,12 +489,16 @@ const aiReply = result.response.text()
               )}
               </div>
 
-                <p className="text-sm text-gray-200 truncate">
-                {
-                allChats[user.name].length > 0
-                 ? (
-           allChats[user.name][allChats[user.name].length - 1].text ||
-        allChats[user.name][allChats[user.name].length - 1]
+               <p className="text-sm text-gray-200 truncate">
+{
+  allChats[user.name].length > 0
+    ? (
+        allChats[user.name][allChats[user.name].length - 1].image
+          ? "📷 Photo"
+          : (
+              allChats[user.name][allChats[user.name].length - 1].text ||
+              allChats[user.name][allChats[user.name].length - 1]
+            )
       )
     : ""
 }
@@ -565,7 +598,15 @@ onContextMenu={(e) => {
               </div>
               )}
 
-              {msg.text || msg}
+              {msg.image ? (
+              <img
+              src={msg.image}
+              alt="sent"
+              className="max-w-[200px] rounded-xl"
+              />
+             ) : (
+            msg.text || msg
+           )}
 
               </div>
                <div className="text-xs opacity-70 mt-1">
@@ -604,6 +645,21 @@ onContextMenu={(e) => {
     </button>
   </div>
 )}
+           <button
+           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+           className="text-2xl"
+           >
+           😀
+           </button>
+           <label className="text-2xl cursor-pointer">
+           📷
+          <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="hidden"
+          />
+          </label>
             <input
               type="text"
               placeholder="Type a message..."
@@ -621,7 +677,11 @@ onContextMenu={(e) => {
 
               className="flex-1 min-w-0 border rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-400"
             />
-
+            {showEmojiPicker && (
+            <div className="absolute bottom-16 left-2 z-50">
+           <EmojiPicker onEmojiClick={onEmojiClick} />
+           </div>
+            )}
             <button
               onClick={sendMessage}
 
