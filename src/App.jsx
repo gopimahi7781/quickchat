@@ -477,7 +477,7 @@ const aiReply = result.response.text()
         </div>
 
         {/* Chat Area */}
-        <div className={`${showChat ? "flex" : "hidden md:flex"} w-full md:w-[70%] flex-col h-screen md:h-auto`}>
+        <div className={`${showChat ? "flex" : "hidden md:flex"} w-full md:w-[70%] flex-col h-full overflow-hidden`}>
 
           {/* Top Bar */}
           <div className="bg-white p-5 border-b shadow-sm flex items-center gap-3 sticky top-0 z-50">
@@ -510,7 +510,7 @@ const aiReply = result.response.text()
 
 </div>
           {/* Messages */}
-          <div className="flex-1 p-5 space-y-4 overflow-y-auto bg-gray-50 min-h-0">
+          <div className="flex-1 p-5 space-y-4 overflow-y-auto bg-gray-50">
 
             {allChats[selectedUser].map((msg, index) => (
 
