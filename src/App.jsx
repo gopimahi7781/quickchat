@@ -8,6 +8,8 @@ function App() {
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY)
   const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
   const [selectedUser, setSelectedUser] = useState("Gopi")
+  const [showChat, setShowChat] = useState(false)
+  const [pressTimer, setPressTimer] = useState(null)
   const [arjunOnline, setArjunOnline] = useState(false)
   useEffect(() => {
   setTimeout(() => {
@@ -402,7 +404,7 @@ const aiReply = result.response.text()
       <div className="w-full h-full md:w-[90%] md:h-[90vh] bg-white rounded-2xl shadow-2xl flex overflow-hidden flex-col md:flex-row">
 
         {/* Sidebar */}
-        <div className="w-full md:w-[30%] bg-indigo-600 text-white p-5">
+        <div className={`${showChat ? "hidden md:block" : "block"} w-full md:w-[30%] bg-indigo-600 text-white p-5`}>
 
           <h1 className="text-3xl font-bold mb-6">
             QuickChat
@@ -421,12 +423,13 @@ const aiReply = result.response.text()
             <div
               key={index}
                 onClick={() => {
-              setSelectedUser(user.name)
+                setSelectedUser(user.name)
+                setShowChat(true)
 
-              setUnreadCounts((prev) => ({
-               ...prev,
-             [user.name]: 0
-             }))
+                setUnreadCounts((prev) => ({
+                  ...prev,
+                [user.name]: 0
+                }))
               }}
 
               className={`p-3 rounded-lg mb-3 flex items-center gap-3 cursor-pointer transition ${
@@ -474,10 +477,17 @@ const aiReply = result.response.text()
         </div>
 
         {/* Chat Area */}
-        <div className="w-full md:w-[70%] flex flex-col">
+        <div className={`${showChat ? "flex" : "hidden md:flex"} w-full md:w-[70%] flex-col h-screen md:h-auto`}>
 
           {/* Top Bar */}
           <div className="bg-white p-5 border-b shadow-sm flex items-center gap-3">
+  
+  <button
+    onClick={() => setShowChat(false)}
+    className="md:hidden text-2xl font-bold"
+  >
+    ←
+  </button>
 
          <img
          src={users.find(user => user.name === selectedUser)?.avatar}
@@ -500,13 +510,45 @@ const aiReply = result.response.text()
 
 </div>
           {/* Messages */}
-          <div className="flex-1 p-5 space-y-4 overflow-y-auto bg-gray-50">
+          <div className="flex-1 p-5 space-y-4 overflow-y-auto bg-gray-50 min-h-0">
 
             {allChats[selectedUser].map((msg, index) => (
 
               <div
                 key={index}
-                onDoubleClick={() => setReplyTo(msg)}
+               onDoubleClick={() => setReplyTo(msg)}
+
+onTouchStart={() => {
+  const timer = setTimeout(() => {
+    if (window.confirm("Delete this message?")) {
+      setAllChats((prev) => ({
+        ...prev,
+        [selectedUser]: prev[selectedUser].filter(
+          (_, i) => i !== index
+        )
+      }))
+    }
+  }, 700)
+
+  setPressTimer(timer)
+}}
+
+onTouchEnd={() => {
+  clearTimeout(pressTimer)
+}}
+
+onContextMenu={(e) => {
+  e.preventDefault()
+
+  if (window.confirm("Delete this message?")) {
+    setAllChats((prev) => ({
+      ...prev,
+      [selectedUser]: prev[selectedUser].filter(
+        (_, i) => i !== index
+      )
+    }))
+  }
+}}
                 
 
                 className={`p-3 rounded-2xl w-fit max-w-[80%] shadow ${
@@ -544,7 +586,7 @@ const aiReply = result.response.text()
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t flex gap-3 bg-white">
+          <div className="p-3 border-t flex gap-2 bg-white items-center">
           {replyTo && (
           <div className="bg-gray-200 p-2 rounded-lg mb-2">
           <p className="text-xs text-gray-600">
@@ -583,7 +625,7 @@ const aiReply = result.response.text()
             <button
               onClick={sendMessage}
 
-              className="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl transition"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-3 rounded-xl transition shrink-0"
             >
               Send
             </button>
@@ -594,7 +636,7 @@ const aiReply = result.response.text()
       [selectedUser]: []
     }))
   }}
-  className="bg-red-500 hover:bg-red-600 text-white px-4 py-3 rounded-xl"
+  className="bg-red-500 hover:bg-red-600 text-white px-3 py-3 rounded-xl shrink-0"
 >
   Clear
 </button>
