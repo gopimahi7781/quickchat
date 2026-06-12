@@ -480,7 +480,7 @@ const aiReply = result.response.text()
         <div className={`${showChat ? "flex" : "hidden md:flex"} w-full md:w-[70%] flex-col h-screen md:h-auto`}>
 
           {/* Top Bar */}
-          <div className="bg-white p-5 border-b shadow-sm flex items-center gap-3">
+          <div className="bg-white p-5 border-b shadow-sm flex items-center gap-3 sticky top-0 z-50">
   
   <button
     onClick={() => setShowChat(false)}
