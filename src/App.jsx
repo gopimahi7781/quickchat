@@ -510,7 +510,7 @@ const aiReply = result.response.text()
 
 </div>
           {/* Messages */}
-          <div className="flex-1 p-5 space-y-4 overflow-y-auto bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-gray-50 min-h-0">
 
             {allChats[selectedUser].map((msg, index) => (
 
@@ -586,7 +586,7 @@ onContextMenu={(e) => {
           </div>
 
           {/* Input */}
-          <div className="p-3 border-t flex gap-2 bg-white items-center">
+          <div className="p-3 border-t flex gap-1 bg-white items-center sticky bottom-0 z-50">
           {replyTo && (
           <div className="bg-gray-200 p-2 rounded-lg mb-2">
           <p className="text-xs text-gray-600">
@@ -619,13 +619,13 @@ onContextMenu={(e) => {
                 }
               }}
 
-              className="flex-1 border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-400"
+              className="flex-1 min-w-0 border rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-400"
             />
 
             <button
               onClick={sendMessage}
 
-              className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-3 rounded-xl transition shrink-0"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-2 rounded-xl transition shrink-0 text-sm"
             >
               Send
             </button>
@@ -636,7 +636,7 @@ onContextMenu={(e) => {
       [selectedUser]: []
     }))
   }}
-  className="bg-red-500 hover:bg-red-600 text-white px-3 py-3 rounded-xl shrink-0"
+  className="bg-red-500 hover:bg-red-600 text-white px-2 py-2 rounded-xl shrink-0 text-sm"
 >
   Clear
 </button>
