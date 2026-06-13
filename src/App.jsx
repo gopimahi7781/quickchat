@@ -135,7 +135,7 @@ useEffect(() => {
   }
 
   reader.readAsDataURL(file)
-}
+  }
 
   const sendMessage = async () => {
 
