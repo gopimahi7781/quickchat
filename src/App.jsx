@@ -88,7 +88,6 @@ useEffect(() => {
  const [replyTo, setReplyTo] = useState(null)
  const [showProfile, setShowProfile] = useState(false)
  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
- const [selectedImage, setSelectedImage] = useState(null)
 
   const chatEndRef = useRef(null)
 
@@ -108,34 +107,7 @@ useEffect(() => {
   const onEmojiClick = (emojiData) => {
     setMessage((prev) => prev + emojiData.emoji)
   }
-  const handleImageUpload = (e) => {
-  const file = e.target.files[0]
-
-  if (!file) return
-
-  const reader = new FileReader()
-
-  reader.onloadend = () => {
-    const base64Image = reader.result
-
-    setAllChats((prev) => ({
-      ...prev,
-      [selectedUser]: [
-        ...prev[selectedUser],
-        {
-          image: base64Image,
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-          sender: "me",
-        },
-      ],
-    }))
-  }
-
-  reader.readAsDataURL(file)
-  }
+ 
 
   const sendMessage = async () => {
 
@@ -607,9 +579,8 @@ onContextMenu={(e) => {
               <img
               src={msg.image}
               alt="sent"
-              onClick={() => setSelectedImage(msg.image)}
-              className="max-w-[200px] rounded-xl cursor-pointer"
-              />
+             className="max-w-[200px] rounded-xl"
+            />
              ) : (
             msg.text || msg
            )}
@@ -657,15 +628,7 @@ onContextMenu={(e) => {
            >
            😀
            </button>
-           <label className="text-2xl cursor-pointer">
-           📷
-          <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="hidden"
-          />
-          </label>
+           
             <input
               type="text"
               placeholder="Type a message..."
@@ -740,19 +703,7 @@ onContextMenu={(e) => {
     </div>
   </div>
 )}
-        {selectedImage && (
-  <div
-    className="fixed inset-0 bg-black/90 flex items-center justify-center z-[999]"
-    onClick={() => setSelectedImage(null)}
-  >
-    <img
-      src={selectedImage}
-      alt="preview"
-      className="max-w-[90%] max-h-[90%] rounded-xl"
-    />
-  </div>
-)}
-          </div>
+               </div>
 
         </div>
 
