@@ -1,20 +1,30 @@
-<<<<<<< HEAD
-# React + Vite
+# QuickChat AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An AI-powered chat application built using React.js, Vite, Tailwind CSS, and Google Gemini AI.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- AI Chat using Gemini API
+- Modern UI
+- Emoji Support
+- Responsive Design
+- Real-time Chat Experience
+- Mobile Friendly
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React.js
+- JavaScript
+- Vite
+- Tailwind CSS
+- Google Gemini API
+- Netlify
+- GitHub
 
-## Expanding the ESLint configuration
+## Live Demo
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# quickchat
->>>>>>> d6f0ea47a2ea67369bd9e25addfa3a447699a6d4
+https://idyllic-twilight-80531c.netlify.app/
+
+## Author
+
+Thamma Gopi Krishna Reddy
